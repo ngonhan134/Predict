@@ -188,4 +188,4 @@ def start_capture(name):
             
             cv2.destroyAllWindows()
         return num_of_images        
-start_capture("Trinh")
+# start_capture("Trinh")

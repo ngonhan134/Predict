@@ -92,5 +92,5 @@ def predict(image_path, threshold=0.5):
     else:
         print("Access denied.")
 
-train_classifer()
+# train_classifer()
 # predict('./random/han.bmp')

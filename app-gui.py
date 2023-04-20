@@ -6,7 +6,7 @@ from tkinter import font as tkfont
 from tkinter import messagebox,PhotoImage
 from PIL import ImageTk, Image
 #from gender_prediction import emotion,ageAndgender
-
+from prediction import check
 names = set()
 
 
@@ -31,7 +31,7 @@ class MainUI(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
-        for F in (StartPage, PageOne, PageTwo, PageThree, PageFour):
+        for F in (StartPage, PageOne, PageTwo, PageThree, PageFour,PageFive):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -66,7 +66,7 @@ class StartPage(tk.Frame):
             label = tk.Label(self, text="        Home Page        ", font=self.controller.title_font,fg="#263942")
             label.grid(row=0, sticky="ew")
             button1 = tk.Button(self, text="   Add a User  ", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageOne"))
-            button2 = tk.Button(self, text="   Check a User  ", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageTwo"))
+            button2 = tk.Button(self, text="   Login  ", fg="#ffffff", bg="#263942",command=lambda: self.controller.show_frame("PageTwo"))
             button3 = tk.Button(self, text="Quit", fg="#263942", bg="#ffffff", command=self.on_closing)
             button1.grid(row=1, column=0, ipady=3, ipadx=7)
             button2.grid(row=2, column=0, ipady=3, ipadx=2)
@@ -112,35 +112,57 @@ class PageOne(tk.Frame):
 
 
 class PageTwo(tk.Frame):
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        global names
         self.controller = controller
-        tk.Label(self, text="Select user", fg="#263942", font='Helvetica 12 bold').grid(row=0, column=0, padx=10, pady=10)
-        self.buttoncanc = tk.Button(self, text="Cancel", command=lambda: controller.show_frame("StartPage"), bg="#ffffff", fg="#263942")
-        self.menuvar = tk.StringVar(self)
-        self.dropdown = tk.OptionMenu(self, self.menuvar, *names)
-        self.dropdown.config(bg="lightgrey")
-        self.dropdown["menu"].config(bg="lightgrey")
-        self.buttonext = tk.Button(self, text="Next", command=self.nextfoo, fg="#ffffff", bg="#263942")
-        self.dropdown.grid(row=0, column=1, ipadx=8, padx=10, pady=10)
-        self.buttoncanc.grid(row=1, ipadx=5, ipady=4, column=0, pady=10)
-        self.buttonext.grid(row=1, ipadx=5, ipady=4, column=1, pady=10)
+        self.scanning_label = tk.Label(self, text="Scanning...", fg="#263942", font='Helvetica 16 bold')
+        self.scanning_label.pack(pady=50)
+        self.result_label = tk.Label(self, text="", fg="#ff0000", font='Helvetica 12')
+        self.result_label.pack(pady=10)
+        
 
-    def nextfoo(self):
-        if self.menuvar.get() == "None":
-            messagebox.showerror("ERROR", "Name cannot be 'None'")
-            return
-        self.controller.active_name = self.menuvar.get()
-        self.controller.show_frame("PageFour")
+        self.back_button = tk.Button(self, text="Back", command=lambda: controller.show_frame("StartPage"), fg="#ffffff", bg="#263942")
+        self.back_button.pack(side="left", ipadx=5, ipady=4, pady=10)
+        self.scan_button = tk.Button(self, text="Scan", command=self.scan, fg="#ffffff", bg="#263942")
+        self.scan_button.pack(side="right", ipadx=5, ipady=4, pady=10)
 
-    def refresh_names(self):
-        global names
-        self.menuvar.set('')
-        self.dropdown['menu'].delete(0, 'end')
-        for name in names:
-            self.dropdown['menu'].add_command(label=name, command=tk._setit(self.menuvar, name))
+
+    def scan(self):
+        if check():
+            self.controller.show_frame("PageFive")
+            self.back_button.place(x=10, y=self.winfo_height()-self.back_button.winfo_reqheight()-10)
+        else:
+            self.result_label.config(text="Not Access")   
+
+
+class PageFive(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+    
+        success_label = tk.Label(self, text="Verification Success!", font='Helvetica 16 bold')
+        success_label.pack(pady=50)
+        
+        self.back_button = tk.Button(self, text="Back", command=self.go_back, fg="#ffffff", bg="#263942")
+        self.back_button.pack(side="bottom", pady=10)
+        
+        self.bind("<Configure>", self.pack_configure)
+        
+    def go_back(self):
+        self.controller.show_frame("PageTwo")
+        
+    def pack_configure(self, event):
+        self.back_button.place(x=10, y=self.winfo_height()-self.back_button.winfo_reqheight()-10)
+
+
+    # def display_image(self):
+    #     img = Image.open("verify.png")
+    #     img = img.resize((400, 400), Image.ANTIALIAS)
+    #     photo = ImageTk.PhotoImage(img)
+    #     self.canvas.create_image(0, 0, anchor=tk.NW, image=photo)
+    #     self.canvas.image = photo
+
+
 
 class PageThree(tk.Frame):
 
@@ -188,7 +210,11 @@ class PageFour(tk.Frame):
         button4.grid(row=1,column=1, sticky="ew", ipadx=5, ipady=4, padx=10, pady=10)
 
     def openwebcam(self):
-        main_app(self.controller.active_name)
+        check(self.controller)
+
+
+
+
     #def gender_age_pred(self):
      #  ageAndgender()
     #def emot(self):
@@ -200,3 +226,34 @@ app = MainUI()
 app.iconphoto(False, tk.PhotoImage(file='hand.png'))
 app.mainloop()
 
+
+# class PageTwo(tk.Frame):
+
+#     def __init__(self, parent, controller):
+#         tk.Frame.__init__(self, parent)
+#         global names
+#         self.controller = controller
+#         tk.Label(self, text="Select user", fg="#263942", font='Helvetica 12 bold').grid(row=0, column=0, padx=10, pady=10)
+#         self.buttoncanc = tk.Button(self, text="Cancel", command=lambda: controller.show_frame("StartPage"), bg="#ffffff", fg="#263942")
+#         self.menuvar = tk.StringVar(self)
+#         self.dropdown = tk.OptionMenu(self, self.menuvar, *names)
+#         self.dropdown.config(bg="lightgrey")
+        
+        
+#         self.dropdown.grid(row=0, column=1, ipadx=8, padx=10, pady=10)
+#         self.buttoncanc.grid(row=1, ipadx=5, ipady=4, column=0, pady=10)
+#         self.buttonext.grid(row=1, ipadx=5, ipady=4, column=1, pady=10)
+
+#     def nextfoo(self):
+#         if self.menuvar.get() == "None":
+#             messagebox.showerror("ERROR", "Name cannot be 'None'")
+#             return
+#         self.controller.active_name = self.menuvar.get()
+#         self.controller.show_frame("PageFour")
+
+#     def refresh_names(self):
+#         global names
+#         self.menuvar.set('')
+#         self.dropdown['menu'].delete(0, 'end')
+#         for name in names:
+#             self.dropdown['menu'].add_command(label=name, command=tk._setit(self.menuvar, name))
