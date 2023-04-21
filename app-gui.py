@@ -107,7 +107,7 @@ class PageOne(tk.Frame):
         name = self.user_name.get()
         names.add(name)
         self.controller.active_name = name
-        self.controller.frames["PageTwo"].refresh_names()
+        # self.controller.frames["PageTwo"].refresh_names()
         self.controller.show_frame("PageThree")
 
 
@@ -133,6 +133,7 @@ class PageTwo(tk.Frame):
             self.back_button.place(x=10, y=self.winfo_height()-self.back_button.winfo_reqheight()-10)
         else:
             self.result_label.config(text="Not Access")   
+            self.after(3000, self.result_label.config, {'text': ''})  # Hiển thị label trong 3 giây trước khi ẩn đi
 
 
 class PageFive(tk.Frame):
@@ -187,9 +188,9 @@ class PageThree(tk.Frame):
         if self.controller.num_of_images < 100:
             messagebox.showerror("ERROR", "No enough Data, Capture at least 200 images!")
             return
-        train_classifer(self.controller.active_name)
+        train_classifer()
         messagebox.showinfo("SUCCESS", "The modele has been successfully trained!")
-        self.controller.show_frame("PageFour")
+        self.controller.show_frame("PageTwo")
 
 
 class PageFour(tk.Frame):   

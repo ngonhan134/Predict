@@ -50,8 +50,8 @@ def IncreaseContrast(img):
 def roiImageFromHand(path_out_img, option, cap):
     # For webcam input:
     # cap = cv2.VideoCapture(0)
-    # cap.set(cv2.CAP_PROP_FRAME_WIDTH,1024)
-    # cap.set(cv2.CAP_PROP_FRAME_HEIGHT,768)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH,1024)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT,768)
     cap.set(3, 1280)
     cap.set(4, 720)
     # cap.set(cv2.CAP_PROP_FPS, 30)

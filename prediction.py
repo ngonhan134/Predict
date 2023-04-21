@@ -55,11 +55,13 @@ def check():
 
     sum=np.sum(confidence_scores)
 
-    if pred>=5 and sum >=5: 
+    if pred>=6 and sum >=3.5: 
         print(np.sum(confidence_scores))
+        print(pred)
         return True
     else:
         print(np.sum(confidence_scores))
+        print(pred)
         return False
 
 
@@ -70,7 +72,7 @@ def check():
 
 
 
-
+    # if pred>=5 and sum >=5: 
     #     print('User')
     #     # print(pred)
     #     print(np.sum(confidence_scores))
@@ -92,5 +94,5 @@ def check():
     #     cv2.imshow("Access denied.",frame1)
     #     cv2.waitKey(2000)
     #     cv2.destroyAllWindows()
-
+# check()
 
