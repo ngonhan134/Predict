@@ -141,7 +141,8 @@ class PageFive(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
     
-        success_label = tk.Label(self, text="Verification Success!", font='Helvetica 16 bold')
+        success_label = tk.Label(self, text="Verification Success!", font='Helvetica 24 bold', fg='blue')
+
         success_label.pack(pady=50)
         
         self.back_button = tk.Button(self, text="Back", command=self.go_back, fg="#ffffff", bg="#263942")
@@ -189,6 +190,10 @@ class PageThree(tk.Frame):
             messagebox.showerror("ERROR", "No enough Data, Capture at least 200 images!")
             return
         train_classifer()
+        # mp.freeze_support()
+        # train_with_multi.main()
+        # messagebox.showinfo("SUCCESS", "The modele has been successfully trained!")
+        # self.controller.show_frame("PageTwo")
         messagebox.showinfo("SUCCESS", "The modele has been successfully trained!")
         self.controller.show_frame("PageTwo")
 

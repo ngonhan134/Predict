@@ -1,4 +1,4 @@
-from ROI import *
+from ROI_Gray import *
 import os
 import LMTRP
 import joblib
@@ -6,6 +6,9 @@ import numpy as np
 import cv2
 import glob
 from PIL import Image 
+
+from skimage.io import imread
+from skimage.transform import resize
 def check():
 # đường dẫn tới thư mục chứa các ảnh
     path_out_img = './ROI1'
@@ -24,7 +27,7 @@ def check():
     image_list = glob.glob(os.path.join(path_out_img, '*.bmp'))
 
     # load mô hình đã được train
-    recognizer = joblib.load('./data/classifiers/user_classifier.joblib')
+    recognizer = joblib.load('./data1/classifiers/user_classifier.joblib')
     pred = 0
     print_flag = True
 
@@ -32,21 +35,34 @@ def check():
     confidence_scores = []
     for img in image_list:
         img= cv2.imread(img)
+   
         img = cv2.resize(img, (64, 64))
+   
         feature = LMTRP.LMTRP_process(img)
         
         # feature = LMTRP.LMTRP_process(img)
         feature = feature.reshape(1, -1)
         decision = recognizer.decision_function(feature)
         confidence = 1 / (1 + np.exp(-decision))
-        predict = recognizer.predict(feature)
-        # print(confidence)
+        predict = recognizer.predict_proba(feature)
         
-        if predict[0]==1:
+        print(confidence)
+        # print(predict)
+
+        # predict_proba() sẽ trả về một array 2 chiều
+        # Với lớp 0 (unknown), kết quả sẽ ở cột đầu tiên
+        # Với lớp 1 (user), kết quả sẽ ở cột thứ 2
+        # Do đó, để lấy kết quả cho lớp 1 và unknown, ta sẽ truy cập vào các phần tử ở cột tương ứng
+        unknown_prob = predict[0][0]
+        user_prob = predict[0][1]
+        print('user',user_prob)
+        print('unknown',unknown_prob)
+
+        if user_prob > 0.7:
             pred = pred + 1
             confidence_scores.append(confidence)
             # text = "Nhan"
-            # print(text)
+            # 
         if print_flag:
             print("Prediction............!")
             print_flag = False
@@ -55,13 +71,15 @@ def check():
 
     sum=np.sum(confidence_scores)
 
-    if pred>=6 and sum >=3.5: 
+    if pred>=5 and sum>=3: 
         print(np.sum(confidence_scores))
         print(pred)
+        print('Nhan')
         return True
     else:
         print(np.sum(confidence_scores))
         print(pred)
+        print('unknown')
         return False
 
 

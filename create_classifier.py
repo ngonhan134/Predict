@@ -46,12 +46,12 @@ def train_classifer():
     features = np.asarray(features)
     labels = np.asarray(labels)
     features = features.reshape(features.shape[0],-1)
-    print(features.shape)
-    print(labels)
+    # print(features.shape)
+    # print(labels)
     # Define the parameters for SVM
     
 
-    param_grid = {'svc__C': [0.1,1, 10, 100, 1000],
+    param_grid = {'svc__C': [1, 10, 100, 1000],
               'svc__gamma': [0.1,0.01,0.001, 0.0001,1],
               'svc__kernel': ['rbf']}
     pipe = make_pipeline(SVC())

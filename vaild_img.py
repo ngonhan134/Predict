@@ -41,3 +41,9 @@ image1 = cv2.imread(image_path1)
 print("Feature of Gray : ")
 print(LMTRP.LMTRP_process(image1))
 print("Feature of Shape Gray =  ",LMTRP.LMTRP_process(image1).shape)
+# import train_with_multi
+# import multiprocessing as mp
+
+# if __name__ == '__main__':
+#     mp.freeze_support()
+#     train_with_multi.main()

@@ -411,6 +411,6 @@ def roiImageFromHand(path_out_img, option, cap):
     return 1
 # path_out_img = "./ROI/"
 # # roiImageFromHand(path_out_img="./ROI/",option=1,cap=cv2.VideoCapture('./test_images/Video/Thai_trai/T1.mp4'))
-roiImageFromHand(path_out_img="./ROI1/",option=2,cap=cv2.VideoCapture(0))
+# roiImageFromHand(path_out_img="./ROI1/",option=2,cap=cv2.VideoCapture(0))
 
 # # print(is_valid(cv2.imread("./roi/0001_00011.bmp")))
