@@ -9,6 +9,7 @@ from PIL import Image
 
 from skimage.io import imread
 from skimage.transform import resize
+
 def check():
 # đường dẫn tới thư mục chứa các ảnh
     path_out_img = './ROI1'
@@ -46,7 +47,7 @@ def check():
         confidence = 1 / (1 + np.exp(-decision))
         predict = recognizer.predict_proba(feature)
         
-        print(confidence)
+        # print(confidence)
         # print(predict)
 
         # predict_proba() sẽ trả về một array 2 chiều
@@ -55,8 +56,8 @@ def check():
         # Do đó, để lấy kết quả cho lớp 1 và unknown, ta sẽ truy cập vào các phần tử ở cột tương ứng
         unknown_prob = predict[0][0]
         user_prob = predict[0][1]
-        print('user',user_prob)
-        print('unknown',unknown_prob)
+        # print('user',user_prob)
+        # print('unknown',unknown_prob)
 
         if user_prob > 0.7:
             pred = pred + 1
