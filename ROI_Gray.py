@@ -47,12 +47,12 @@ def IncreaseContrast(img):
 
 def roiImageFromHand( path_out_img, option, cap):
     # For webcam input:
-    # cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
     # cap.set(cv2.CAP_PROP_FRAME_WIDTH,1024)
     # cap.set(cv2.CAP_PROP_FRAME_HEIGHT,768)
-    cap.set(3, 1280)
-    cap.set(4, 720)
-    cap.set(cv2.CAP_PROP_FPS, 30)
+    # cap.set(3, 1280)
+    # cap.set(4, 720)
+    # cap.set(cv2.CAP_PROP_FPS, 30)
     with mp_hands.Hands(
             #model_complexity=0,
             min_detection_confidence=0.5,
@@ -74,7 +74,7 @@ def roiImageFromHand( path_out_img, option, cap):
 
                         imageOutput = imgaeResize
 
-                        #cv2.imshow("DEFAULT ", image)
+                        cv2.imshow("DEFAULT ", image)
                         #cv2.imshow("RESIZE ", imgaeResize)
 
                         imgaeRGB = imgaeResize
@@ -292,8 +292,8 @@ def roiImageFromHand( path_out_img, option, cap):
 
                         imageOutput = imgaeResize
 
-                        #cv2.imshow("DEFAULT ", image)
-                        #cv2.imshow("RESIZE ", imgaeResize)
+                        # cv2.imshow("DEFAULT ", image)
+                        cv2.imshow("RESIZE ", imgaeResize)
                         imgaeResize.flags.writeable = False
                         #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                         results = hands.process(imgaeResize)

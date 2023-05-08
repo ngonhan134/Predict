@@ -4,19 +4,15 @@ import LMTRP
 import numpy as np
 
 # Load classifier
-clf = joblib.load("./data/classifiers/nhan_classifier.joblib")
+
 
 # Load image and extract feature
-img = cv2.imread("./random/du.bmp")
+img = cv2.imread("./ROI1/0001_0002.bmp")
+img=cv2.resize(img,(64,64))
 print(img.shape)
 feature = LMTRP.LMTRP_process(img)
-feature = feature.flatten()
-print(feature)
-# Predict
-prediction = clf.predict([feature])
 
-# Apply threshold
-if prediction[0] == 1:
-    print("The new image belongs to the data set.")
-else:
-    print("The new image does not belong to the data set.")
+print(feature.shape)
+# Predict
+
+

@@ -10,7 +10,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import GridSearchCV
 import joblib
 import glob
-
+from imblearn.over_sampling import SMOTE
 def train_classifer():
     # Read all the images in custom data-set
 
@@ -49,19 +49,20 @@ def train_classifer():
     # print(features.shape)
     # print(labels)
     # Define the parameters for SVM
-    
+    smote = SMOTE()
+    features, labels = smote.fit_resample(features, labels)
 
-    param_grid = {'svc__C': [1, 10, 100, 1000],
-              'svc__gamma': [0.1,0.01,0.001, 0.0001,1],
-              'svc__kernel': ['rbf']}
-    pipe = make_pipeline(SVC())
-    model = GridSearchCV(pipe, cv=10,param_grid=param_grid, n_jobs=-1,verbose=3)
+    param_grid = {'C': [0.1,1, 10, 100, 1000],
+                  'gamma': [0.1,0.01,0.001, 0.0001,1],
+                  'kernel': ['rbf']}
+   
+    model = GridSearchCV(SVC(class_weight='balanced',probability=True), cv=10,param_grid=param_grid, n_jobs=-1,verbose=3)
     model.fit(features, labels)
     best_params = model.best_params_
     print("Best hyperparameters: ", best_params)
 
     # Initialize the SVM model with best hyperparameters
-    best_svm = SVC(kernel=best_params['svc__kernel'], C=best_params['svc__C'], gamma=best_params['svc__gamma'])
+    best_svm = SVC(kernel=best_params['kernel'], C=best_params['C'], gamma=best_params['gamma'])
 
     best_svm.fit(features, labels)
 

@@ -31,14 +31,18 @@ def IncreaseContrast(img):
     return enhanced_img
 
 def start_capture(name):
-        path = "./data/user/"+name
+        path = "./data1/user/"+name
         
-        # detector = cv2.CascadeClassifier("./data/haarcascade_frontalface_default.xml")
         try:
             os.makedirs(path)
         except:
             print('Directory Already Created')
         cap = cv2.VideoCapture(0)
+        # cap.set(cv2.CAP_PROP_FRAME_WIDTH,640)
+        # cap.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
+        # cap.set(3, 640)
+        # cap.set(4, 480)
+        # cap.set(cv2.CAP_PROP_FPS, 30)
         with mp_hands.Hands(
                 #model_complexity=0,
                 min_detection_confidence=0.5,
@@ -61,17 +65,17 @@ def start_capture(name):
 
                         imageOutput = imgaeResize
 
-                        #cv2.imshow("DEFAULT ", image)
+                        cv2.imshow("DEFAULT ", image)
                         # cv2.imshow("RESIZE ", imgaeResize)
 
                         imgaeRGB = imgaeResize
                         imgaeResize.flags.writeable = False
                         imgaeRGB.flags.writeable = False
-                        #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
                         results = hands.process(imgaeResize)
                         # print(results)
 
-                        cropped_image = imgaeResize
+                        cropped_image = cv2.cvtColor(imgaeResize, cv2.COLOR_BGR2GRAY)
 
                         h = cropped_image.shape[0]
                         w = cropped_image.shape[1]
@@ -106,7 +110,7 @@ def start_capture(name):
                         results = hands.process(imgaeRGB)
                         # print(results)
 
-                        cropped_image =imgaeRGB
+                        cropped_image = cv2.cvtColor(imgaeRGB, cv2.COLOR_BGR2GRAY)
 
                         h = cropped_image.shape[0]
                         w = cropped_image.shape[1]
@@ -188,4 +192,3 @@ def start_capture(name):
             
             cv2.destroyAllWindows()
         return num_of_images        
-# start_capture("Trinh")
