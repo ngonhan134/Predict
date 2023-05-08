@@ -15,8 +15,8 @@ def train_classifer():
     # Read all the images in custom data-set
 
 # Read all the images in custom data-set
-    path1 = os.path.join(os.getcwd()+"/data/user/")  # path to images of authorized users
-    path2 = os.path.join(os.getcwd()+"/data/unknown1/")  # path to images of unauthorized users
+    path1 = os.path.join(os.getcwd()+"/data1/user/")  # path to images of authorized users
+    path2 = os.path.join(os.getcwd()+"/data1/unknown1/")  # path to images of unauthorized users
 
     features = []
     labels = []
