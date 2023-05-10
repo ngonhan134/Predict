@@ -112,61 +112,27 @@ class PageOne(tk.Frame):
         self.controller.show_frame("PageThree")
 
 
-# class PageTwo(tk.Frame):
-#     def __init__(self, parent, controller):
-#         tk.Frame.__init__(self, parent)
-#         self.controller = controller
-#         self.scanning_label = tk.Label(self, text="Scanning...", fg="#263942", font='Helvetica 16 bold')
-#         self.scanning_label.pack(pady=50)
-#         self.result_label = tk.Label(self, text="", fg="#ff0000", font='Helvetica 12')
-#         self.result_label.pack(pady=10)
-#         self.thread = None
-        
-
-#         self.back_button = tk.Button(self, text="Back", command=lambda: controller.show_frame("StartPage"), fg="#ffffff", bg="#263942")
-#         self.back_button.pack(side="left", ipadx=5, ipady=4, pady=10)
-#         self.scan_button = tk.Button(self, text="Scan", command=self.scan, fg="#ffffff", bg="#263942")
-#         self.scan_button.pack(side="right", ipadx=5, ipady=4, pady=10)
-
-
-#     def scan(self):
-#         if self.thread is None or not self.thread.is_alive():
-#             self.thread = threading.Thread(target=self.check_thread)
-#             self.thread.start()
-#     def check_thread(self):
-#         if check():
-#             self.controller.show_frame("PageFive")
-#             self.back_button.place(x=10, y=self.winfo_height()-self.back_button.winfo_reqheight()-10)
-#         else:
-#             self.result_label.config(text="Not Access")   
-#             self.after(3000, self.result_label.config, {'text': ''})
-
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        
-        # Khai báo biến StringVar để hiển thị thông báo trên giao diện
-        self.scanning_msg = tk.StringVar(value="Click 'Scan' to start scanning...") 
-        self.scanning_label = tk.Label(self, textvariable=self.scanning_msg, fg="#263942", font='Helvetica 16 bold')
+        self.scanning_label = tk.Label(self, text="Scanning...", fg="#263942", font='Helvetica 16 bold')
         self.scanning_label.pack(pady=50)
         self.result_label = tk.Label(self, text="", fg="#ff0000", font='Helvetica 12')
         self.result_label.pack(pady=10)
         self.thread = None
+        
+
         self.back_button = tk.Button(self, text="Back", command=lambda: controller.show_frame("StartPage"), fg="#ffffff", bg="#263942")
         self.back_button.pack(side="left", ipadx=5, ipady=4, pady=10)
         self.scan_button = tk.Button(self, text="Scan", command=self.scan, fg="#ffffff", bg="#263942")
         self.scan_button.pack(side="right", ipadx=5, ipady=4, pady=10)
 
+
     def scan(self):
-        # Cập nhật lại giá trị của biến StringVar để hiển thị thông báo "Scanning..."
         if self.thread is None or not self.thread.is_alive():
             self.thread = threading.Thread(target=self.check_thread)
             self.thread.start()
-        self.scan_button.config(state="disabled")
-        self.scanning_msg.set("Scanning...!!!!")
-        self.update()  # Cập nhật giao diện ngay lập tức
-
     def check_thread(self):
         if check():
             self.controller.show_frame("PageFive")
@@ -175,9 +141,43 @@ class PageTwo(tk.Frame):
             self.result_label.config(text="Not Access")   
             self.after(3000, self.result_label.config, {'text': ''})
 
-        # Cập nhật lại giá trị của biến StringVar để hiển thị lại thông báo ban đầu
-        self.scanning_msg.set("Click 'Scan' to start scanning...")
-        self.scan_button.config(state="normal")
+# class PageTwo(tk.Frame):
+#     def __init__(self, parent, controller):
+#         tk.Frame.__init__(self, parent)
+#         self.controller = controller
+        
+#         # Khai báo biến StringVar để hiển thị thông báo trên giao diện
+#         self.scanning_msg = tk.StringVar(value="Click 'Scan' to start scanning...") 
+#         self.scanning_label = tk.Label(self, textvariable=self.scanning_msg, fg="#263942", font='Helvetica 16 bold')
+#         self.scanning_label.pack(pady=50)
+#         self.result_label = tk.Label(self, text="", fg="#ff0000", font='Helvetica 12')
+#         self.result_label.pack(pady=10)
+#         self.thread = None
+#         self.back_button = tk.Button(self, text="Back", command=lambda: controller.show_frame("StartPage"), fg="#ffffff", bg="#263942")
+#         self.back_button.pack(side="left", ipadx=5, ipady=4, pady=10)
+#         self.scan_button = tk.Button(self, text="Scan", command=self.scan, fg="#ffffff", bg="#263942")
+#         self.scan_button.pack(side="right", ipadx=5, ipady=4, pady=10)
+
+#     def scan(self):
+#         # Cập nhật lại giá trị của biến StringVar để hiển thị thông báo "Scanning..."
+#         if self.thread is None or not self.thread.is_alive():
+#             self.thread = threading.Thread(target=self.check_thread)
+#             self.thread.start()
+#         self.scan_button.config(state="disabled")
+#         self.scanning_msg.set("Scanning...!!!!")
+#         self.update()  # Cập nhật giao diện ngay lập tức
+
+#     def check_thread(self):
+#         if check():
+#             self.controller.show_frame("PageFive")
+#             self.back_button.place(x=10, y=self.winfo_height()-self.back_button.winfo_reqheight()-10)
+#         else:
+#             self.result_label.config(text="Not Access")   
+#             self.after(3000, self.result_label.config, {'text': ''})
+
+#         # Cập nhật lại giá trị của biến StringVar để hiển thị lại thông báo ban đầu
+#         self.scanning_msg.set("Click 'Scan' to start scanning...")
+#         self.scan_button.config(state="normal")
 
 
 
@@ -232,7 +232,7 @@ class PageThree(tk.Frame):
 
     def capimg(self):
         self.numimglabel.config(text=str("Captured Images = 0 "))
-        messagebox.showinfo("INSTRUCTIONS", "We will Capture 200 pic of your Palm.")
+        messagebox.showinfo("INSTRUCTIONS", "We will Capture 100 pic of your Palm.")
         x = start_capture(self.controller.active_name)
         self.controller.num_of_images = x
         self.numimglabel.config(text=str("Number of images captured = "+str(x)))
